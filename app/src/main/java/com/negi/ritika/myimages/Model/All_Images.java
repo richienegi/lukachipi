@@ -7,17 +7,19 @@ public class All_Images {
     String downloads;
     String time;
     String category;
+    String uid;
 
-    public All_Images(String id, String url, String likes, String downloads, String time, String category) {
+    public All_Images() {
+    }
+
+    public All_Images(String id, String url, String likes, String downloads, String time, String category, String uid) {
         this.id = id;
         this.url = url;
         this.likes = likes;
         this.downloads = downloads;
         this.time = time;
         this.category = category;
-    }
-
-    public All_Images() {
+        this.uid = uid;
     }
 
     public String getId() {
@@ -42,5 +44,9 @@ public class All_Images {
 
     public String getCategory() {
         return category;
+    }
+
+    public String getUid() {
+        return uid;
     }
 }

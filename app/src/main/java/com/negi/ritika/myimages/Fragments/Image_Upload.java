@@ -1,7 +1,6 @@
 package com.negi.ritika.myimages.Fragments;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -28,13 +27,13 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.negi.ritika.myimages.Constants;
-import com.negi.ritika.myimages.Main2Activity;
 import com.negi.ritika.myimages.Model.All_Images;
 import com.negi.ritika.myimages.R;
-import com.negi.ritika.myimages.UploadListAdapter;
+import com.negi.ritika.myimages.Adapters.UploadListAdapter;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -98,6 +97,12 @@ public class Image_Upload extends Fragment {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP_MR1)
             @Override
             public void onClick(View v) {
+                if(images.size()>0) {
+                    images.clear();
+                    filedone.clear();
+                    filename.clear();
+                    uploadListAdapter.notifyDataSetChanged();
+                }
                 Intent i = new Intent();
                 i.setType("image/*");
                 i.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
@@ -128,13 +133,14 @@ public class Image_Upload extends Fragment {
 
                     try {
                         images.add(MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), uri));
+                        String filenn = getFilename(uri);
+                        filename.add(filenn);
+                        filedone.add("uploading");
+                        uploadListAdapter.notifyDataSetChanged();
+
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    String filenn = getFilename(uri);
-                    filename.add(filenn);
-                    filedone.add("uploading");
-                    uploadListAdapter.notifyDataSetChanged();
 
                     final int finalI = i;
                     StorageReference sRef = storageReference.child(spinner.getSelectedItem().toString() + "/" + filename.get(i) + "." + "png");
@@ -152,10 +158,11 @@ public class Image_Upload extends Fragment {
                             //adding an uploadimage to firebase database
                             String uploadId = ref.push().getKey();
 
-                            All_Images all_images = new All_Images(uploadId, taskSnapshot.getDownloadUrl().toString(),
-                                    likes, downloads, time(), spinner.getSelectedItem().toString());
+                            String uid = "admin";
 
-                            ref.child("admin").child(uploadId).setValue(all_images);
+                            All_Images all_images = new All_Images(uploadId, taskSnapshot.getDownloadUrl().toString(), likes, downloads, time(), spinner.getSelectedItem().toString(), uid);
+
+                            ref.child(uid).child(uploadId).setValue(all_images);
 
                             Toast.makeText(getContext(), "Uploaded Sucessfully", Toast.LENGTH_SHORT).show();
                             pd.dismiss();
@@ -165,6 +172,12 @@ public class Image_Upload extends Fragment {
                         public void onFailure(@NonNull Exception e) {
                             Toast.makeText(getContext(), " Sorry" + e, Toast.LENGTH_SHORT).show();
                             pd.dismiss();
+                        }
+                    }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                            double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                            pd.setMessage("Uploaded " + ((int) progress) + "%...");
                         }
                     });
                     // Toast.makeText(this, "Selected multiple files", Toast.LENGTH_SHORT).show();

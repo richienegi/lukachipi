@@ -1,4 +1,4 @@
-package com.negi.ritika.myimages;
+package com.negi.ritika.myimages.Adapters;
 
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.negi.ritika.myimages.R;
 
 import java.util.List;
 

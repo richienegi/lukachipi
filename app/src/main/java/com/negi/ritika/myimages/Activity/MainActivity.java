@@ -1,5 +1,6 @@
-package com.negi.ritika.myimages;
+package com.negi.ritika.myimages.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -14,15 +15,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.negi.ritika.myimages.Fragments.Image_Upload;
+import com.negi.ritika.myimages.R;
 
-public class Main2Activity extends AppCompatActivity
+public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main2);
+        setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         //firebase objects
@@ -62,7 +64,7 @@ public class Main2Activity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main2, menu);
+        getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
@@ -87,16 +89,17 @@ public class Main2Activity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.image_upload) {
             Image_Upload im = new Image_Upload();
             getSupportFragmentManager().beginTransaction().replace(R.id.container, im).commit();
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.user_post) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.application) {
+            startActivity(new Intent(MainActivity.this, AppActivity.class));
 
-        } else if (id == R.id.nav_manage) {
-
+        } else if (id == R.id.my_uploads) {
+            startActivity(new Intent(MainActivity.this, Admin_Uploads.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
