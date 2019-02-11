@@ -1,8 +1,11 @@
 package com.negi.ritika.myimages.Activity;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,19 +13,24 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.negi.ritika.myimages.Adapters.PostListAdapter;
+import com.negi.ritika.myimages.ClickListener;
 import com.negi.ritika.myimages.Model.All_Images;
 import com.negi.ritika.myimages.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PostsListActivity extends AppCompatActivity implements PostListAdapter.ClickListener {
+public class PostsListActivity extends AppCompatActivity implements ClickListener {
 
     private ProgressDialog pd;
 
@@ -53,10 +61,9 @@ public class PostsListActivity extends AppCompatActivity implements PostListAdap
 
         mRecylerview.setLayoutManager(layoutManager);
 
-        if (owner.length()>0) {
+        if (owner.length() > 0) {
             showUserPost(owner);
-        }
-        else {
+        } else {
             showAllImages();
         }
     }
@@ -163,7 +170,42 @@ public class PostsListActivity extends AppCompatActivity implements PostListAdap
     }
 
     @Override
-    public void onItemLongClick(View view, int position) {
+    public void onItemLongClick(View view, final int position) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Remove Image");
+        builder.setMessage("Want to Delete this Image???");
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                deleteImage(data.get(position));
+                dialog.dismiss();
+            }
+        });
 
+        builder.setNeutralButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog ad = builder.create();
+        ad.show();
+    }
+
+    private void deleteImage(final All_Images data) {
+        StorageReference ref = FirebaseStorage.getInstance().getReferenceFromUrl(data.getUrl());
+        ref.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    DatabaseReference reference = FirebaseDatabase.getInstance().getReference("uploads").child(cate);
+                    reference.child(data.getUid()).child(data.getId()).removeValue();
+                    Toast.makeText(PostsListActivity.this, "Image Deleted", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(PostsListActivity.this, "Failed To Delete\n\nTry Again", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 }

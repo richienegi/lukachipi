@@ -4,25 +4,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@null"
-    tools:context=".Fragment.ImagePreview">
-<Button
-    android:layout_marginTop="10dp"
-    android:id="@+id/set"
-    android:textColor="	#FFFFFF"
-    android:textSize="22dp"
-    android:textStyle="bold|italic"
-    android:paddingStart="20dp"
-    android:textAlignment="textStart"
-     android:text="Set as wallPaper"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="#c9c2c2"/>
-    <!-- TODO: Update blank fragment layout -->
-   <ImageView
+    tools:context=".Fragments.ImagePreview">
 
-       android:id="@+id/preimg"
-       android:layout_width="match_parent"
-       android:layout_height="match_parent"
-       />
+    <Button
+        android:id="@+id/set"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="#c9c2c2"
+        android:paddingStart="20dp"
+        android:text="Set as wallPaper"
+        android:textAlignment="textStart"
+        android:textColor="	#FFFFFF"
+        android:textSize="22dp"
+        android:textStyle="bold|italic" />
+    <!-- TODO: Update blank fragment layout -->
+    <ImageView
+
+        android:id="@+id/preimg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </FrameLayout>

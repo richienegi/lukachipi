@@ -8,11 +8,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.negi.ritika.myimages.Adapters.my_adapter;
+import com.negi.ritika.myimages.Fragments.UserRequestPost;
 import com.negi.ritika.myimages.Model.nature_model;
 import com.negi.ritika.myimages.R;
 
 public class AppActivity extends AppCompatActivity implements my_adapter.RecylerListener
 {
+    String click = "";
     String category="";
     RecyclerView rv;
 
@@ -20,6 +22,8 @@ public class AppActivity extends AppCompatActivity implements my_adapter.Recyler
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app);
+
+        click = getIntent().getStringExtra("click");
 
         rv = (RecyclerView)findViewById(R.id.rview);
         my_adapter myadpt = new my_adapter(this, nature_model.getObjectList());
@@ -52,9 +56,20 @@ public class AppActivity extends AppCompatActivity implements my_adapter.Recyler
 
 
         }
-        Intent i=new Intent(AppActivity.this,PostsListActivity.class);
-        i.putExtra("categ",category);
-        i.putExtra("owner", "");
-        startActivity(i);
+        if(click.equals("app"))
+        {
+            Intent i=new Intent(AppActivity.this,PostsListActivity.class);
+            i.putExtra("categ",category);
+            i.putExtra("owner", "");
+            startActivity(i);
+        }
+        else if(click.equals("user_post"))
+        {
+            UserRequestPost urp = new UserRequestPost();
+            Bundle b = new Bundle();
+            b.putString("categ", category);
+            urp.setArguments(b);
+            getSupportFragmentManager().beginTransaction().replace(R.id.user_post_frag_container, urp).addToBackStack(null).commit();
+        }
     }
 }

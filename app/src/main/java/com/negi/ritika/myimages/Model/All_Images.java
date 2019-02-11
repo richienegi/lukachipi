@@ -1,6 +1,7 @@
 package com.negi.ritika.myimages.Model;
 
 public class All_Images {
+
     String id;
     String url;
     String likes;
@@ -8,11 +9,9 @@ public class All_Images {
     String time;
     String category;
     String uid;
+    String name;
 
-    public All_Images() {
-    }
-
-    public All_Images(String id, String url, String likes, String downloads, String time, String category, String uid) {
+    public All_Images(String id, String url, String likes, String downloads, String time, String category, String uid, String name) {
         this.id = id;
         this.url = url;
         this.likes = likes;
@@ -20,6 +19,10 @@ public class All_Images {
         this.time = time;
         this.category = category;
         this.uid = uid;
+        this.name = name;
+    }
+
+    public All_Images() {
     }
 
     public String getId() {
@@ -48,5 +51,9 @@ public class All_Images {
 
     public String getUid() {
         return uid;
+    }
+
+    public String getName() {
+        return name;
     }
 }

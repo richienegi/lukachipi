@@ -12,47 +12,38 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.negi.ritika.myimages.ClickListener;
-import com.negi.ritika.myimages.Model.All_Images;
+import com.negi.ritika.myimages.Model.User_Images;
 import com.negi.ritika.myimages.R;
 
 import java.util.List;
 
-public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.ViewHolder> {
+public class PostRequestAdapter extends RecyclerView.Adapter<PostRequestAdapter.MyViewHolder> {
 
+    List<User_Images> data;
     Context c;
-    LayoutInflater li;
-    List<All_Images> data;
+    ClickListener listener;
 
-    public ClickListener listener;
-
-    public PostListAdapter(Context c, List<All_Images> data) {
+    public PostRequestAdapter(Context c, List<User_Images> data) {
         this.c=c;
-        li = LayoutInflater.from(c);
         this.data = data;
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = li.inflate(R.layout.row, parent, false);
-
-        ViewHolder vh = new ViewHolder(v);
-        return vh;
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(c).inflate(R.layout.user_request_image, parent, false);
+        return new MyViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
-        All_Images info = data.get(position);
-        holder.setData(position, info);
-
+    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+        User_Images ui = data.get(position);
+        holder.setData(position, ui);
         Glide.with(c)
-                .load(info.getUrl())
+                .load(ui.getUrl())
                 .transition(DrawableTransitionOptions.withCrossFade())
-                .into(holder.mImage);
+                .into(holder.imageView);
 
-//        Picasso.with(ctx).load(image).placeholder(R.drawable.download).into(mImage);
-        holder.downloads.setText(info.getDownloads());
     }
 
     @Override
@@ -60,20 +51,14 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.ViewHo
         return data.size();
     }
 
-
-    public class ViewHolder extends RecyclerView.ViewHolder {
-
-        public All_Images model;
+    public class MyViewHolder extends RecyclerView.ViewHolder {
         int position;
-        ImageView mImage;
-        TextView downloads;
+        User_Images model;
+        ImageView imageView;
 
-        public ViewHolder(View itemView) {
+        public MyViewHolder(View itemView) {
             super(itemView);
-
-            mImage = itemView.findViewById(R.id.rImageView);
-            downloads = itemView.findViewById(R.id.noDown);
-
+            imageView = (ImageView)itemView.findViewById(R.id.rImageView);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -88,16 +73,14 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.ViewHo
                     return true;
                 }
             });
-
         }
 
-        public void setData(int position , All_Images model)
+        public void setData(int position , User_Images model)
         {
             this.position = position;
             this.model = model;
         }
     }
-
 
     public void setOnClick(ClickListener onClick) {
         this.listener = onClick;

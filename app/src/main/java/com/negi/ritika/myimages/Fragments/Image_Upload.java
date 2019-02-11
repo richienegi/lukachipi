@@ -14,6 +14,7 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -160,7 +161,7 @@ public class Image_Upload extends Fragment {
 
                             String uid = "admin";
 
-                            All_Images all_images = new All_Images(uploadId, taskSnapshot.getDownloadUrl().toString(), likes, downloads, time(), spinner.getSelectedItem().toString(), uid);
+                            All_Images all_images = new All_Images(uploadId, taskSnapshot.getDownloadUrl().toString(), likes, downloads, time(), spinner.getSelectedItem().toString(), uid,uid);
 
                             ref.child(uid).child(uploadId).setValue(all_images);
 
@@ -218,12 +219,11 @@ public class Image_Upload extends Fragment {
 
     public String time() {
         Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+5:30"));
-        Date currentLocalTime = cal.getTime();
-        DateFormat date = new SimpleDateFormat("HH:mm");
-// you can get seconds by adding  "...:ss" to it
-        date.setTimeZone(TimeZone.getTimeZone("GMT+5:30"));
 
-        String localTime = date.format(currentLocalTime);
+        long date = cal.getTimeInMillis();
+
+        String localTime = String.valueOf(date);
+
         return localTime;
     }
 

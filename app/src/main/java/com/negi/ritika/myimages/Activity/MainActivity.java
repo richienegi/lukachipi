@@ -94,9 +94,13 @@ public class MainActivity extends AppCompatActivity
             getSupportFragmentManager().beginTransaction().replace(R.id.container, im).commit();
             // Handle the camera action
         } else if (id == R.id.user_post) {
-
+            Intent i = new Intent(MainActivity.this, AppActivity.class);
+            i.putExtra("click", "user_post");
+            startActivity(i);
         } else if (id == R.id.application) {
-            startActivity(new Intent(MainActivity.this, AppActivity.class));
+            Intent i = new Intent(MainActivity.this, AppActivity.class);
+            i.putExtra("click", "app");
+            startActivity(i);
 
         } else if (id == R.id.my_uploads) {
             startActivity(new Intent(MainActivity.this, Admin_Uploads.class));
