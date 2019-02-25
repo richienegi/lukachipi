@@ -1,28 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@null"
+    android:background="@color/colorPrimaryDark"
     tools:context=".Fragments.ImagePreview">
+
+    <ProgressBar
+        android:id="@+id/progress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/circle_shape"
+        android:indeterminate="false"
+        android:max="100"
+        android:progress="0"
+        android:progressDrawable="@drawable/circular_progress_bar" />
 
     <Button
         android:id="@+id/set"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="#c9c2c2"
-        android:paddingStart="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="10dp"
+        android:alpha="0.6"
+        android:background="@color/colorAccent"
         android:text="Set as wallPaper"
-        android:textAlignment="textStart"
-        android:textColor="	#FFFFFF"
+        android:textAlignment="center"
+        android:textColor="@color/tab_selected"
         android:textSize="22dp"
-        android:textStyle="bold|italic" />
+        android:textStyle="bold" />
+
     <!-- TODO: Update blank fragment layout -->
     <ImageView
-
         android:id="@+id/preimg"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-</FrameLayout>
+</RelativeLayout>

@@ -2,45 +2,40 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="#fff"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorPrimary"
     tools:context=".Fragments.Image_Upload">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <TextView
-            android:textSize="20dp"
-            android:textColor="@color/button"
-            android:gravity="center"
-            android:text="Admin Section"
+        <android.support.v7.widget.Toolbar
+            app:title="Upload Image"
+            app:titleTextColor="@color/tab_selected"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay"/>
+
         <Button
-            android:layout_marginTop="20dp"
             android:id="@+id/browse"
-            android:background="@drawable/button"
-            android:text="Browse"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <Spinner
-            android:layout_marginTop="10dp"
-            android:id="@+id/spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:entries="@array/category"></Spinner>
+            android:layout_margin="20dp"
+            android:background="@color/colorAccent"
+            android:textColor="@color/tab_selected"
+            android:text="Browse" />
 
         <android.support.v7.widget.RecyclerView
-            android:layout_marginTop="10dp"
             android:id="@+id/uploadlist"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp">
 
         </android.support.v7.widget.RecyclerView>
-
 
     </LinearLayout>
 
